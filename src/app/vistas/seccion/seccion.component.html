@@ -1,0 +1,78 @@
+<ngx-json-ld [json]="schema"></ngx-json-ld>
+<div class="content-container">
+  <clr-vertical-nav *ngIf="estructura"
+                    [clr-nav-level]="2">
+    <a clrVerticalNavLink
+       *ngFor="let proyecto of estructura.proyectos"
+       [routerLink]="['/','seccion',seccion,creaLink(proyecto.proyecto)]"
+       routerLinkActive="active">
+      {{proyecto.proyecto}}
+    </a>
+  </clr-vertical-nav>
+  <div class="content-area">
+    <div class="clr-row"
+         *ngIf="proyecto; else elseBlock">
+      <div class="clr-col-lg-4 clr-col-md-6 clr-col-12"
+           *ngFor="let foto of imagenes">
+        <a href=""
+           class="card clickable">
+          <div class="card-image">
+            <img [src]="foto.foto"
+                 alt="foto.descripcion">
+          </div>
+          <div class="card-block">
+            <div class="card-text">
+              {{foto.descripcion}}
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <div class="fondo"
+           *ngIf="imagenes.length > 0"
+           [ngStyle]="{'background-image':'url(\''+imagenes[numFondo].foto+'\')'}">
+        <div class="clr-row clr-justify-content-end texto-fondo">
+          <div class="clr-col-lg-4 clr-col-md-6 clr-col-12">
+            <div class="card">
+              <div class="card-block">
+                <div class="card-title">
+                  <strong [innerHTML]="imagenes[numFondo].proyecto | safe:'html'"></strong>
+                </div>
+                <div class="card-text">
+                  <span [innerHTML]="imagenes[numFondo].descripcion | safe:'html'"></span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <a class="btn btn-sm btn-link"
+                   *ngIf="seccion"
+                   [routerLink]="['..',creaLink(seccion),creaLink(imagenes[numFondo].proyecto)]">
+                  Ver proyecto
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-row clr-justify-content-center"
+           *ngIf="estructura">
+        <div class="clr-col-lg-6 clr-col-md-10 clr-col-12">
+          <div class="card descripcion">
+            <div class="card-block">
+              <div class="card-title">
+                <cds-icon class="logo"
+                          shape="logo_color">
+                </cds-icon>
+                <span [innerHTML]="estructura.seccion"></span>
+              </div>
+              <div class="card-text">
+                <span [innerHTML]="estructura.descripcion | safe:'html'"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+</div>

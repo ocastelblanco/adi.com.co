@@ -1,8 +1,10 @@
-<div class="main-container">
+<clr-main-container *ngIf="estructura else noEstructura">
   <adi-header [titulo]="titulo"></adi-header>
-  <div class="content-container">
-    <div class="content-area">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</div>
+  <router-outlet></router-outlet>
+</clr-main-container>
+<ng-template class="loading"
+             #noEstructura>
+  <ngx-skeleton-loader count="5"
+                       appearance="line">
+  </ngx-skeleton-loader>
+</ng-template>

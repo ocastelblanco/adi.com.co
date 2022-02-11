@@ -1,21 +1,57 @@
-<div class="clr-row">
-  <div class="clr-col-lg-5 clr-col-md-8 clr-col-12">
-    <div class="card">
-      <div class="card-header">
-        Header
-      </div>
-      <div class="card-block">
-        <div class="card-title">
-          Block
+<ngx-json-ld [json]="schema"></ngx-json-ld>
+<div class="content-container">
+  <div class="fondo"
+       [ngStyle]="{'background-image':'url(\'' + fondos[numFondo].foto + '\')'}"
+       *ngIf="fondos.length > 1">
+    <div class="clr-row clr-justify-content-end descripcion"
+         *ngIf="fondos[numFondo].descripcion">
+      <div class="clr-col-lg-4 clr-col-md-6 clr-col-8">
+        <div class="card descripcion-fondo">
+          <div class="card-block">
+            <div class="card-title">
+              <strong [innerHTML]="fondos[numFondo].seccion"></strong>
+              -
+              <strong [innerHTML]="fondos[numFondo].proyecto"></strong>
+            </div>
+            <div class="card-text">
+              <span [innerHTML]="fondos[numFondo].descripcion | safe:'html'"></span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-sm btn-link"
+               [routerLink]="['..','seccion',creaLink(fondos[numFondo].seccion),creaLink(fondos[numFondo].proyecto)]">
+              Ver proyecto
+            </a>
+          </div>
         </div>
-        <div class="card-text">
-          ...
-        </div>
-      </div>
-      <div class="card-footer">
-        <button class="btn btn-sm btn-link">Footer Action 1</button>
-        <button class="btn btn-sm btn-link">Footer Action 2</button>
       </div>
     </div>
   </div>
+  <div class="content-area"
+       *ngIf="estructura[0] && estructura[0].descripcion else noInicio">
+    <div class="clr-row clr-justify-content-center">
+      <div class="clr-col-lg-6 clr-col-md-10 clr-col-12">
+        <div class="card intro">
+          <div class="card-block">
+            <div class="card-title">
+              <cds-icon class="logo"
+                        shape="logo_color">
+              </cds-icon>
+              A+DI Arquitectura y Diseño Interior
+            </div>
+            <div class="card-text">
+              <span [innerHTML]="estructura[0].descripcion | safe:'html'"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noInicio>
+    <div class="loading">
+      <ngx-skeleton-loader count="5"
+                           appearance="line">
+      </ngx-skeleton-loader>
+    </div>
+  </ng-template>
 </div>
