@@ -1,12 +1,15 @@
 .content-container {
   margin-top: 3rem;
-  min-height: calc(100vh - 3rem);
+  height: calc(100vh - 3rem);
+  overflow-y: hidden;
   .clr-vertical-nav {
     box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.25);
     z-index: 1;
   }
   .content-area {
     position: relative;
+    max-height: 100%;
+    overflow-y: scroll;
     .fondo {
       background-size: cover;
       background-position: center;
@@ -39,6 +42,87 @@
           width: 1.8rem;
           margin-right: 1em;
         }
+      }
+    }
+    .galeria {
+      .celda {
+        margin-bottom: 1rem;
+        .card {
+          display: flex;
+          flex-direction: column;
+          &.clickable {
+            .card-image {
+              overflow: hidden;
+              flex: 1 1 auto;
+              display: flex;
+              justify-content: center;
+              align-items: stretch;
+              .img {
+                width: 100%;
+                height: auto;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
+              }
+            }
+            &.full {
+              .card-image {
+                height: 100%;
+                .img {
+                  width: auto;
+                  height: auto;
+                }
+              }
+            }
+            &:hover {
+              .card-image {
+                .img {
+                  transform: scale(1.15);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.modal-foto {
+  .modal-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    .atras,
+    .adelante {
+      width: 4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .icono {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+      }
+      &:hover {
+        cursor: pointer;
+        .icono {
+          background-color: rgba(0, 0, 0, 0.075);
+        }
+      }
+    }
+    .imagen {
+      max-width: 100%;
+      max-height: 70vh;
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
       }
     }
   }

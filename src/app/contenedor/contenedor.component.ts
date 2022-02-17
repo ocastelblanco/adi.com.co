@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Title, Meta } from '@angular/platform-browser';
 import { ClarityIcons } from '@cds/core/icon';
-import { EstructuraService, Estructura } from '../servicios/estructura.service';
+import { Estructura, EstructuraService } from '../servicios/estructura.service';
 
 const isotipo_color: string = `
 <svg version="1.1" width="36" height="36" preserveAspectRatio="xMidYMid meet"
@@ -55,22 +54,10 @@ ClarityIcons.addIcons(['logo_color', isotipo_color], ['logo_blanco', isotipo_bla
   styleUrls: ['./contenedor.component.scss']
 })
 export class ContenedorComponent implements OnInit {
-  titulo: string = 'A+DI Arquitectura y Diseño Interior';
   estructura!: Estructura[];
-  constructor(
-    private titleService: Title,
-    private metaService: Meta,
-    private estructuraService: EstructuraService
-  ) {
+  constructor(private estructuraService: EstructuraService) {
     this.estructuraService.init();
-    this.estructuraService.getEstructura().subscribe(e => this.estructura = e);
-    this.titleService.setTitle(this.titulo);
-    this.metaService.addTags([
-      { name: 'keywords', content: 'adi, arquitectura, diseño, diseno, diseño interior, diseno interior, architecture, interior design, design, mobiliario, furniture, remodelaciones' },
-      { name: 'description', content: 'Somos una empresa de Arquitectura y Diseño interior con más de 10 años de experiencia en diseño y construcción de mobiliario y obra civil.' },
-      { name: 'robots', content: 'index, follow' }
-    ]);
-    //document.getElementsByTagName('body')[0].setAttribute('cds-theme', 'dark');
+    this.estructuraService.getEstructura().subscribe((estructura: Estructura[]) => this.estructura = estructura);
   }
   ngOnInit(): void {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
