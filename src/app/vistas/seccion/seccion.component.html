@@ -5,8 +5,8 @@
     <a clrVerticalNavLink
        *ngFor="let proyecto of estructura.proyectos"
        [routerLink]="['/','seccion',seccion,creaLink(proyecto.proyecto)]"
-       routerLinkActive="active">
-      {{proyecto.proyecto}}
+       routerLinkActive="active"
+       [innerHTML]="proyecto.proyecto | safe:'html'">
     </a>
   </clr-vertical-nav>
   <div class="content-area">
@@ -15,8 +15,8 @@
       <div class="clr-col-lg-4 clr-col-md-6 clr-col-12 celda">
         <div class="card proyecto desc">
           <div class="card-block">
-            <h3 class="card-title">
-              {{estructura.proyectos[numProyecto].proyecto}}
+            <h3 class="card-title"
+                [innerHTML]="nombreProyecto | safe:'html'">
             </h3>
             <p class="card-text"
                [innerHTML]="estructura.proyectos[numProyecto].descripcion | safe:'html'">
@@ -96,8 +96,8 @@
            [(clrModalOpen)]="abreModal"
            [clrModalStaticBackdrop]="false">
   <h3 class="modal-title"
-      *ngIf="imagenes[numFoto].descripcion !== ''">
-    {{imagenes[numFoto].descripcion}}
+      *ngIf="imagenes[numFoto].descripcion !== ''"
+      [innerHTML]="imagenes[numFoto].descripcion | safe:'html'">
   </h3>
   <div class="modal-body"
        (@fade.done)="terminaAnimacion($event)"
