@@ -9,7 +9,6 @@ import {
   style,
   animate,
   transition,
-  // ...
 } from '@angular/animations';
 
 interface FotoFondo extends Foto {

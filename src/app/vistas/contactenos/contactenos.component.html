@@ -1,0 +1,96 @@
+<ngx-json-ld [json]="schema"></ngx-json-ld>
+<div class="content-container">
+  <div class="content-area">
+    <clr-alert *ngIf="alertaMensaje !== ''"
+               [clrAlertType]="alertaMensaje">
+      <clr-alert-item>
+        <span class="alert-text"
+              *ngIf="alertaMensaje === 'success'">
+          Su mensaje se ha enviado correctamente.
+          ¡Pronto nos pondremos en contacto!
+        </span>
+        <span class="alert-text"
+              *ngIf="alertaMensaje === 'danger'">
+          Ha habido un problema al enviar el mensaje.
+          Escríbanos a
+          <a target="_blank"
+             href="mailto:adiarquitecturaydiseno@gmail.com">
+            adiarquitecturaydiseno@gmail.com
+          </a>
+        </span>
+      </clr-alert-item>
+    </clr-alert>
+    <div class="clr-row">
+      <div class="clr-col-lg-6 clr-col-md-10 clr-col-12 clr-offset-lg-3 clr-offset-md-1">
+        <h1>¿Qué podemos hacer por usted?</h1>
+        <form clrForm
+              (ngSubmit)="enviarMensaje()"
+              [formGroup]="contacto">
+          <span class="clr-sr-only">Saltando con la tecla Tab entre campos podrá oir los mensajes de validación.</span>
+          <clr-input-container>
+            <label class="clr-col-12 clr-col-md-2">Nombre</label>
+            <input class="clr-col-12 clr-col-md-8"
+                   clrInput
+                   formControlName="nombre"
+                   type="text"
+                   name="nombre"
+                   required>
+            <clr-control-error *clrIfError="'required'">
+              Es necesario que incluya un nombre.
+            </clr-control-error>
+            <clr-control-error *clrIfError="'minlength'; error as err">
+              El nombre debe tener {{err.requiredLength}} caracteres como mínimo.
+            </clr-control-error>
+          </clr-input-container>
+          <clr-input-container>
+            <label class="clr-col-12 clr-col-md-2">Teléfono</label>
+            <input class="clr-col-12 clr-col-md-8"
+                   clrInput
+                   type="tel"
+                   formControlName="telefono"
+                   name="telefono">
+            <clr-control-error *clrIfError="'pattern'">
+              Debe escribir un número telefónico válido.
+            </clr-control-error>
+            <clr-control-error *clrIfError="'minlength'; error as err">
+              El número telefónico debe tener {{err.requiredLength}} dígitos al menos.
+            </clr-control-error>
+          </clr-input-container>
+          <clr-input-container>
+            <label class="clr-col-12 clr-col-md-2">Email</label>
+            <input class="clr-col-12 clr-col-md-8"
+                   clrInput
+                   formControlName="email"
+                   type="email"
+                   name="email"
+                   required>
+            <clr-control-error *clrIfError="'required'">
+              Es necesario que incluya un email.
+            </clr-control-error>
+            <clr-control-error *clrIfError="'email'">
+              Debe escribir un email válido.
+            </clr-control-error>
+          </clr-input-container>
+          <clr-textarea-container>
+            <label class="clr-col-12 clr-col-md-2">Mensaje</label>
+            <textarea class="clr-col-12 clr-col-md-8"
+                      clrTextarea
+                      formControlName="mensaje"
+                      name="mensaje"
+                      rows="6"
+                      required>
+                      </textarea>
+            <clr-control-error>Es necesario incluir un mensaje.</clr-control-error>
+          </clr-textarea-container>
+          <div class="acciones clr-col-12">
+            <button class="btn btn-primary"
+                    type="submit"
+                    [disabled]="contacto.invalid">
+              Enviar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
