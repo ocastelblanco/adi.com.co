@@ -6,7 +6,8 @@
     <div class="clr-row clr-justify-content-end descripcion"
          *ngIf="fondos[numFondo].descripcion">
       <div class="clr-col-lg-4 clr-col-md-6 clr-col-8">
-        <div class="card descripcion-fondo">
+        <div [@proyCard]="cambiaFondo ? true : false"
+             class="card descripcion-fondo">
           <div class="card-block">
             <div class="card-title">
               <strong [innerHTML]="fondos[numFondo].seccion"></strong>
@@ -31,7 +32,8 @@
        *ngIf="estructura[0] && estructura[0].descripcion else noInicio">
     <div class="clr-row clr-justify-content-center">
       <div class="clr-col-lg-6 clr-col-md-10 clr-col-12">
-        <div class="card intro">
+        <div @arrAba
+             class="card intro">
           <div class="card-block">
             <div class="card-title">
               <cds-icon class="logo"

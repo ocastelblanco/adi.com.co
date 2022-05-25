@@ -1,6 +1,7 @@
 <ngx-json-ld [json]="schema"></ngx-json-ld>
 <div class="content-container">
   <clr-vertical-nav *ngIf="estructura"
+                    @derIzq
                     [clr-nav-level]="2">
     <a clrVerticalNavLink
        *ngFor="let proyecto of estructura.proyectos"
@@ -11,9 +12,10 @@
   </clr-vertical-nav>
   <div class="content-area">
     <div class="clr-row galeria"
-         *ngIf="proyecto; else elseBlock">
+         *ngIf="proyecto; else seccionGeneral">
       <div class="clr-col-lg-4 clr-col-md-6 clr-col-12 celda">
-        <div class="card proyecto desc">
+        <div @arrAba
+             class="card proyecto desc">
           <div class="card-block">
             <h3 class="card-title"
                 [innerHTML]="nombreProyecto | safe:'html'">
@@ -28,6 +30,7 @@
            *ngFor="let foto of imagenes; index as i">
         <div (click)="abrirModal(i)"
              [ngClass]="{'full': foto.descripcion === ''}"
+             @izqDer
              class="card proyecto clickable">
           <div class="card-image">
             <img [src]="foto.foto"
@@ -43,13 +46,14 @@
         </div>
       </div>
     </div>
-    <ng-template #elseBlock>
+    <ng-template #seccionGeneral>
       <div class="fondo"
            *ngIf="imagenes.length > 0"
            [ngStyle]="{'background-image':'url(\''+imagenes[numFondo].foto+'\')'}">
         <div class="clr-row clr-justify-content-end texto-fondo">
           <div class="clr-col-lg-4 clr-col-md-6 clr-col-12">
-            <div class="card">
+            <div [@proyCard]="cambiandoFondo ? true : false"
+                 class="card">
               <div class="card-block">
                 <div class="card-title">
                   <strong [innerHTML]="imagenes[numFondo].proyecto | safe:'html'"></strong>
@@ -72,7 +76,8 @@
       <div class="clr-row clr-justify-content-center"
            *ngIf="estructura">
         <div class="clr-col-lg-6 clr-col-md-10 clr-col-12">
-          <div class="card descripcion">
+          <div @arrAba
+               class="card descripcion">
             <div class="card-block">
               <div class="card-title">
                 <cds-icon class="logo"

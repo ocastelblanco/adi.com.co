@@ -21,7 +21,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             mensajeError = `Error: ${error.error.message}`;
           } else {
             // El error es server-side
-            mensajeError = `Error Code: ${error.status},  Message: ${error.message}`;
+            mensajeError = `Error Code: ${error.status},  Mensaje: ${error.message}`;
           }
           return throwError(() => mensajeError);
         })

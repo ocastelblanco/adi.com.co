@@ -9,7 +9,8 @@
   <div class="header-nav"
        [clr-nav-level]="1">
     <ng-container *ngFor="let seccion of estructura">
-      <a class="nav-link nav-text"
+      <a @linkMenu
+         class="nav-link nav-text"
          routerLinkActive="active"
          *ngIf="seccion.seccion !== 'Inicio'"
          [routerLink]="['seccion',creaLink(seccion.seccion)]">

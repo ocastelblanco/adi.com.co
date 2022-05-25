@@ -3,13 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { EstructuraService, Estructura, Foto } from 'src/app/servicios/estructura.service';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 interface FotoFondo extends Foto {
   proyecto: string;
@@ -20,6 +14,11 @@ interface FotoFondo extends Foto {
   templateUrl: './seccion.component.html',
   styleUrls: ['./seccion.component.scss'],
   animations: [
+    trigger('proyCard', [
+      state('true', style({ opacity: 0, transform: 'translateX(100%)' })),
+      state('false', style({ opacity: 1, transform: 'translateX(0)' })),
+      transition('* => *', [animate('0.5s ease-in-out')]),
+    ]),
     trigger('fade', [
       state('saliendo', style({
         opacity: 0,
@@ -29,6 +28,60 @@ interface FotoFondo extends Foto {
       })),
       transition('* => *', [
         animate('0.2s ease-in')
+      ]),
+    ]),
+    trigger('derIzq', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100%)'
+        }),
+        animate('0.5s ease-in-out', style({
+          opacity: 1,
+          transform: 'translateX(0px)'
+        }))
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in-out', style({
+          opacity: 0,
+          transform: 'translateX(-100%)'
+        }))
+      ]),
+    ]),
+    trigger('izqDer', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateX(100%)'
+        }),
+        animate('0.5s ease-in-out', style({
+          opacity: 1,
+          transform: 'translateX(0px)'
+        }))
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in-out', style({
+          opacity: 0,
+          transform: 'translateX(100%)'
+        }))
+      ]),
+    ]),
+    trigger('arrAba', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        }),
+        animate('0.5s ease-in-out', style({
+          opacity: 1,
+          transform: 'translateX(0px)'
+        }))
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in-out', style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        }))
       ]),
     ]),
   ]
@@ -48,6 +101,7 @@ export class SeccionComponent implements OnInit, AfterViewChecked {
   numFoto: number = 0;
   _numFoto: number = 0;
   estadoFoto: string = 'saliendo';
+  cambiandoFondo: boolean = false;
   constructor(
     private titleService: Title,
     private estructuraService: EstructuraService,
@@ -122,6 +176,8 @@ export class SeccionComponent implements OnInit, AfterViewChecked {
   cambiaFondo(): void {
     const timestamp: number = Date.now();
     if (timestamp - this.timestamp > 30000 || this.timestamp === 0) {
+      this.cambiandoFondo = true;
+      window.setTimeout(() => this.cambiandoFondo = false, 500);
       this.timestamp = timestamp;
       this.listaFondos.length < 1 ? this.listaFondos = this.imagenes.map((f, i) => i) : null;
       this.numFondo = this.listaFondos.splice(Math.floor(Math.random() * this.listaFondos.length), 1)[0];

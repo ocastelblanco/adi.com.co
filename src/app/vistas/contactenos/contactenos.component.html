@@ -21,7 +21,8 @@
       </clr-alert-item>
     </clr-alert>
     <div class="clr-row">
-      <div class="clr-col-lg-6 clr-col-md-10 clr-col-12 clr-offset-lg-3 clr-offset-md-1">
+      <div @contenido
+           class="clr-col-lg-6 clr-col-md-10 clr-col-12 clr-offset-lg-3 clr-offset-md-1">
         <h1>¿Qué podemos hacer por usted?</h1>
         <form clrForm
               (ngSubmit)="enviarMensaje()"

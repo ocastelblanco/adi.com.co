@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { interval } from 'rxjs';
 import { Estructura, EstructuraService, Foto, Proyecto } from 'src/app/servicios/estructura.service';
+import { trigger, state, transition, style, animate } from '@angular/animations';
 
 interface Fondo {
   seccion: string;
@@ -13,7 +14,32 @@ interface Fondo {
 @Component({
   selector: 'adi-inicio',
   templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.scss']
+  styleUrls: ['./inicio.component.scss'],
+  animations: [
+    trigger('proyCard', [
+      state('true', style({ opacity: 0, transform: 'translateX(100%)' })),
+      state('false', style({ opacity: 1, transform: 'translateX(0)' })),
+      transition('* => *', [animate('0.5s ease-in-out')]),
+    ]),
+    trigger('arrAba', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        }),
+        animate('0.5s ease-in-out', style({
+          opacity: 1,
+          transform: 'translateX(0px)'
+        }))
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in-out', style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        }))
+      ]),
+    ]),
+  ]
 })
 export class InicioComponent implements OnInit {
   titulo: string = 'A+DI Arquitectura y Diseño Interior';
@@ -24,6 +50,7 @@ export class InicioComponent implements OnInit {
   numFondo: number = 0;
   timestamp: number = 0;
   schema: any = {};
+  cambiaFondo: boolean = false;
   constructor(
     private estructuraService: EstructuraService,
     private titleService: Title,
@@ -71,6 +98,8 @@ export class InicioComponent implements OnInit {
       this.timestamp = timestamp;
       if (this.listaFondos.length < 1) this.listaFondos = this.fondos.map((f, i) => i);
       this.numFondo = this.listaFondos.splice(Math.floor(Math.random() * this.listaFondos.length), 1)[0];
+      this.cambiaFondo = true;
+      window.setTimeout(() => this.cambiaFondo = false, 500);
     }
   }
   creaLink(nombre: string): string {

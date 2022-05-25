@@ -1,11 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { EstructuraService, Mensaje } from 'src/app/servicios/estructura.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'adi-contactenos',
   templateUrl: './contactenos.component.html',
-  styleUrls: ['./contactenos.component.scss']
+  styleUrls: ['./contactenos.component.scss'],
+  animations: [
+    trigger('contenido', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        }),
+        animate('0.5s ease-in-out', style({
+          opacity: 1,
+          transform: 'translateY(0px)'
+        }))
+      ])
+    ]),
+  ]
 })
 export class ContactenosComponent implements OnInit {
   schema: any = {};
@@ -44,7 +59,7 @@ export class ContactenosComponent implements OnInit {
           }
         },
         error: (err: any) => {
-          console.log('Error de CORS, pero no es incapacitante');
+          console.log('Error de CORS, pero no es incapacitante', err);
           this.mensaje = { nombre: '', telefono: '', email: '', mensaje: '' };
           this.contacto.reset();
           this.alertaMensaje = 'success';
