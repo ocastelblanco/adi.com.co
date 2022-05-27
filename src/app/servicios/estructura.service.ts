@@ -28,7 +28,7 @@ export interface Mensaje {
 })
 export class EstructuraService {
   private estructura: BehaviorSubject<Estructura[]> = new BehaviorSubject<Estructura[]>([]);
-  private url: string = 'https://script.google.com/macros/s/AKfycbz_c2emK6xr7BQKgj2Cj487Yf3VHqq-s5H1nucQr-IKbXv1FGgsVZE2t6vbc0slKMnc/exec';
+  private url: string = 'https://script.google.com/macros/s/AKfycbwFiN5Zzetx5Yo2jDIu71ATSfhXwJIbxc83FT9SV8FEQcejC85F93bMTg-ybbWcIrsDVA/exec';
   constructor(private http: HttpClient) { }
   init(): void {
     this.http.get(this.url, { responseType: 'json' }).subscribe((data: any) => this.estructura.next(data));
