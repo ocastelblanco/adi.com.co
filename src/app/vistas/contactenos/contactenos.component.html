@@ -4,6 +4,11 @@
     <clr-alert *ngIf="alertaMensaje !== ''"
                [clrAlertType]="alertaMensaje">
       <clr-alert-item>
+        <div class="alert-text"
+             *ngIf="alertaMensaje === 'info'">
+          <span class="spinner spinner-inline">Enviando mensaje...</span>
+          <span>&nbsp;Enviando mensaje...</span>
+        </div>
         <span class="alert-text"
               *ngIf="alertaMensaje === 'success'">
           Su mensaje se ha enviado correctamente.
