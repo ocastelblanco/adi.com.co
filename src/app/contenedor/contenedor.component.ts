@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ClarityIcons } from '@cds/core/icon';
-import { Estructura, EstructuraService } from '../servicios/estructura.service';
+import { Estructura, EstructuraService, Ruta } from '../servicios/estructura.service';
+import { Router } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 const isotipo_color: string = `
 <svg version="1.1" width="36" height="36" preserveAspectRatio="xMidYMid meet"
@@ -51,18 +54,169 @@ ClarityIcons.addIcons(['logo_color', isotipo_color], ['logo_blanco', isotipo_bla
 @Component({
   selector: 'adi-contenedor',
   templateUrl: './contenedor.component.html',
-  styleUrls: ['./contenedor.component.scss']
+  styleUrls: ['./contenedor.component.scss'],
+  animations: [
+    trigger('proyCard', [
+      state('true', style({ opacity: 0, transform: 'translateX(100%)' })),
+      state('false', style({ opacity: 1, transform: 'translateX(0)' })),
+      transition('* => *', [animate('0.5s ease-in-out')]),
+    ]),
+    trigger('fade', [
+      state('saliendo', style({
+        opacity: 0,
+      })),
+      state('entrando', style({
+        opacity: 1,
+      })),
+      transition('* => *', [
+        animate('0.2s ease-in')
+      ]),
+    ]),
+    trigger('derIzq', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100%)'
+        }),
+        animate('0.5s ease-in-out', style({
+          opacity: 1,
+          transform: 'translateX(0px)'
+        }))
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in-out', style({
+          opacity: 0,
+          transform: 'translateX(-100%)'
+        }))
+      ]),
+    ]),
+    trigger('izqDer', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateX(100%)'
+        }),
+        animate('0.5s ease-in-out', style({
+          opacity: 1,
+          transform: 'translateX(0px)'
+        }))
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in-out', style({
+          opacity: 0,
+          transform: 'translateX(100%)'
+        }))
+      ]),
+    ]),
+    trigger('arrAba', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        }),
+        animate('0.5s ease-in-out', style({
+          opacity: 1,
+          transform: 'translateX(0px)'
+        }))
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in-out', style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        }))
+      ]),
+    ]),
+  ]
 })
 export class ContenedorComponent implements OnInit {
-  estructura!: Estructura[];
-  constructor(private estructuraService: EstructuraService) {
+  ruta: Ruta = { seccion: null, proyecto: null };
+  esSeccion: boolean = false;
+  estructura!: Estructura;
+  estructuraTotal!: Estructura[];
+  numProyecto!: number;
+  nombreProyecto!: string;
+  schema: any = {};
+  titulo: string = 'A+DI Arquitectura y Diseño Interior';
+  descripcionGeneral!: string;
+  constructor(
+    private titleService: Title,
+    private estructuraService: EstructuraService,
+    private router: Router,
+    private metaService: Meta
+  ) {
     this.estructuraService.init();
-    this.estructuraService.getEstructura().subscribe((estructura: Estructura[]) => this.estructura = estructura);
   }
   ngOnInit(): void {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       const idCont: Element | null = document.getElementById('contenedor');
       idCont ? idCont.setAttribute('cds-theme', 'dark') : null;
     }
+    this.estructuraService.getEstructura().subscribe((estructuraJSON: Estructura[]) => {
+      this.estructuraTotal = estructuraJSON;
+      if (this.estructuraTotal.length > 0) {
+        this.descripcionGeneral = this.estructuraTotal[0].descripcion.replace(/\n/gm, ' ');
+        this.titleService.setTitle(this.titulo);
+        this.metaService.addTags([
+          { name: 'keywords', content: 'adi, arquitectura, diseño, diseno, diseño interior, diseno interior, architecture, interior design, design, mobiliario, furniture, remodelaciones' },
+          { name: 'description', content: this.descripcionGeneral },
+          { name: 'robots', content: 'index, follow' }
+        ]);
+        this.estructuraService.getRuta().subscribe((ruta: Ruta) => {
+          window.setTimeout(() => {
+            this.ruta = ruta;
+            if (this.ruta.seccion) {
+              this.estructura = this.estructuraTotal.filter(s => this.creaLink(s.seccion) === this.ruta.seccion)[0] ?? null;
+              if (this.estructura) {
+                if (this.ruta.proyecto) {
+                  this.numProyecto = this.estructura.proyectos.map(p => this.creaLink(p.proyecto)).indexOf(this.ruta.proyecto);
+                  this.nombreProyecto = this.estructura.proyectos[this.numProyecto].proyecto;
+                  this.titleService.setTitle('A+DI - ' + this.nombreProyecto);
+                  this.schema = {
+                    '@context': 'http://schema.org',
+                    '@type': 'MediaGallery',
+                    'name': 'A+DI - ' + this.estructura.seccion + ' / ' + this.nombreProyecto,
+                    'url': 'https://adi.com.co/seccion/' + this.ruta.seccion + '/' + this.ruta.proyecto,
+                    'description': this.estructura.proyectos[this.numProyecto].descripcion,
+                  };
+                } else {
+                  this.titleService.setTitle('A+DI - ' + this.estructura.seccion);
+                  this.schema = {
+                    '@context': 'http://schema.org',
+                    '@type': 'MediaGallery',
+                    'name': 'A+DI - ' + this.estructura.seccion,
+                    'url': 'https://adi.com.co/seccion/' + this.ruta.seccion,
+                    'description': this.estructura.descripcion,
+                  };
+                }
+              } else {
+                this.router.navigate(['/inicio']);
+              }
+            } else {
+              this.titleService.setTitle(this.titulo);
+              this.schema = {
+                '@context': 'http://schema.org',
+                '@type': 'WebSite',
+                'name': this.titulo,
+                'url': 'https://adi.com.co/inicio',
+                'description': this.descripcionGeneral
+              };
+            }
+            if (this.ruta.proyecto === 'contactenos') {
+              this.schema = {
+                '@context': 'http://schema.org',
+                '@type': 'ContactPage',
+                'name': 'A+DI - Contáctenos',
+                'url': 'https://adi.com.co/contactenos',
+                'description': '¿Qué podemos hacer por usted?',
+              };
+            }
+            this.estructuraService.creaURLCanonica();
+          }, 500);
+        });
+      }
+    });
+  }
+  creaLink(nombre: string): string {
+    return this.estructuraService.creaLink(nombre);
   }
 }

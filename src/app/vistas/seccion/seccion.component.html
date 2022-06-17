@@ -1,133 +1,95 @@
-<ngx-json-ld [json]="schema"></ngx-json-ld>
-<div class="content-container">
-  <clr-vertical-nav *ngIf="estructura"
-                    @derIzq
-                    [clr-nav-level]="2">
-    <a clrVerticalNavLink
-       *ngFor="let proyecto of estructura.proyectos"
-       [routerLink]="['/','seccion',seccion,creaLink(proyecto.proyecto)]"
-       routerLinkActive="active"
-       [innerHTML]="proyecto.proyecto | safe:'html'">
-    </a>
-  </clr-vertical-nav>
-  <div class="content-area">
-    <div class="clr-row galeria"
-         *ngIf="proyecto; else seccionGeneral">
-      <div class="clr-col-lg-4 clr-col-md-6 clr-col-12 celda">
-        <div @arrAba
-             class="card proyecto desc">
-          <div class="card-block">
-            <h3 class="card-title"
-                [innerHTML]="nombreProyecto | safe:'html'">
-            </h3>
-            <p class="card-text"
-               [innerHTML]="estructura.proyectos[numProyecto].descripcion | safe:'html'">
-            </p>
+<div class="contenido" *ngIf="seccion else cargando">
+  <div class="clr-row galeria" *ngIf="proyecto else seccionGeneral">
+    <div class="clr-col-lg-4 clr-col-md-6 clr-col-12 celda">
+      <div @arrAba class="card proyecto desc">
+        <div class="card-block">
+          <h3 class="card-title" [innerHTML]="nombreProyecto | safe:'html'">
+          </h3>
+          <p class="card-text" [innerHTML]="estructura.proyectos[numProyecto].descripcion | safe:'html'">
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="clr-col-lg-4 clr-col-md-6 clr-col-12 celda" *ngFor="let foto of imagenes; index as i">
+      <div (click)="abrirModal(i)" [ngClass]="{'full': foto.descripcion === ''}" @izqDer
+           class="card proyecto clickable">
+        <div class="card-image">
+          <img [src]="foto.foto" class="img" [alt]="foto.descripcion !== '' ? foto.descripcion : nombreProyecto">
+        </div>
+        <div class="card-block" *ngIf="foto.descripcion !== ''">
+          <div class="card-text" [innerHTML]="foto.descripcion | safe:'html'">
           </div>
         </div>
       </div>
-      <div class="clr-col-lg-4 clr-col-md-6 clr-col-12 celda"
-           *ngFor="let foto of imagenes; index as i">
-        <div (click)="abrirModal(i)"
-             [ngClass]="{'full': foto.descripcion === ''}"
-             @izqDer
-             class="card proyecto clickable">
-          <div class="card-image">
-            <img [src]="foto.foto"
-                 class="img"
-                 [alt]="foto.descripcion !== '' ? foto.descripcion : nombreProyecto">
-          </div>
-          <div class="card-block"
-               *ngIf="foto.descripcion !== ''">
-            <div class="card-text"
-                 [innerHTML]="foto.descripcion | safe:'html'">
+    </div>
+  </div>
+  <ng-template #seccionGeneral>
+    <div class="fondo" *ngIf="imagenes.length > 0"
+         [ngStyle]="{'background-image':'url(\''+imagenes[numFondo].foto+'\')'}">
+      <div class="clr-row clr-justify-content-end texto-fondo">
+        <div class="clr-col-lg-4 clr-col-md-6 clr-col-12">
+          <div [@proyCard]="cambiandoFondo ? true : false" class="card">
+            <div class="card-block">
+              <div class="card-title">
+                <strong [innerHTML]="imagenes[numFondo].proyecto | safe:'html'"></strong>
+              </div>
+              <div class="card-text">
+                <span [innerHTML]="imagenes[numFondo].descripcion | safe:'html'"></span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-sm btn-link" *ngIf="seccion"
+                 [routerLink]="['..',creaLink(seccion),creaLink(imagenes[numFondo].proyecto)]">
+                Ver proyecto
+              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <ng-template #seccionGeneral>
-      <div class="fondo"
-           *ngIf="imagenes.length > 0"
-           [ngStyle]="{'background-image':'url(\''+imagenes[numFondo].foto+'\')'}">
-        <div class="clr-row clr-justify-content-end texto-fondo">
-          <div class="clr-col-lg-4 clr-col-md-6 clr-col-12">
-            <div [@proyCard]="cambiandoFondo ? true : false"
-                 class="card">
-              <div class="card-block">
-                <div class="card-title">
-                  <strong [innerHTML]="imagenes[numFondo].proyecto | safe:'html'"></strong>
-                </div>
-                <div class="card-text">
-                  <span [innerHTML]="imagenes[numFondo].descripcion | safe:'html'"></span>
-                </div>
-              </div>
-              <div class="card-footer">
-                <a class="btn btn-sm btn-link"
-                   *ngIf="seccion"
-                   [routerLink]="['..',creaLink(seccion),creaLink(imagenes[numFondo].proyecto)]">
-                  Ver proyecto
-                </a>
-              </div>
+    <div class="clr-row clr-justify-content-center" *ngIf="estructura">
+      <div class="clr-col-lg-6 clr-col-md-10 clr-col-12">
+        <div @arrAba class="card descripcion">
+          <div class="card-block">
+            <div class="card-title">
+              <cds-icon class="logo" shape="logo_color">
+              </cds-icon>
+              <span [innerHTML]="estructura.seccion"></span>
+            </div>
+            <div class="card-text">
+              <span [innerHTML]="estructura.descripcion | safe:'html'"></span>
             </div>
           </div>
         </div>
       </div>
-      <div class="clr-row clr-justify-content-center"
-           *ngIf="estructura">
-        <div class="clr-col-lg-6 clr-col-md-10 clr-col-12">
-          <div @arrAba
-               class="card descripcion">
-            <div class="card-block">
-              <div class="card-title">
-                <cds-icon class="logo"
-                          shape="logo_color">
-                </cds-icon>
-                <span [innerHTML]="estructura.seccion"></span>
-              </div>
-              <div class="card-text">
-                <span [innerHTML]="estructura.descripcion | safe:'html'"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-template>
-  </div>
+    </div>
+  </ng-template>
 </div>
-<clr-modal [clrModalSize]="'xl'"
-           class="modal-foto"
-           *ngIf="imagenes[numFoto]"
-           [(clrModalOpen)]="abreModal"
+<ng-template #cargando>
+  <div class="loading">
+    <ngx-skeleton-loader count="5" appearance="line">
+    </ngx-skeleton-loader>
+  </div>
+</ng-template>
+<clr-modal [clrModalSize]="'xl'" class="modal-foto" *ngIf="imagenes[numFoto]" [(clrModalOpen)]="abreModal"
            [clrModalStaticBackdrop]="false">
-  <h3 class="modal-title"
-      *ngIf="imagenes[numFoto].descripcion !== ''"
+  <h3 class="modal-title" *ngIf="imagenes[numFoto].descripcion !== ''"
       [innerHTML]="imagenes[numFoto].descripcion | safe:'html'">
   </h3>
-  <div class="modal-body"
-       (@fade.done)="terminaAnimacion($event)"
-       [@fade]="estadoFoto">
-    <div class="atras"
-         (click)="cambiaFoto(-1)">
+  <div class="modal-body" (@fade.done)="terminaAnimacion($event)" [@fade]="estadoFoto">
+    <div class="atras" (click)="cambiaFoto(-1)">
       <div class="icono">
-        <cds-icon shape="angle"
-                  direction="left"
-                  size="lg">
+        <cds-icon shape="angle" direction="left" size="lg">
         </cds-icon>
       </div>
     </div>
     <div class="imagen">
-      <img [src]="imagenes[numFoto].foto"
-           [alt]="imagenes[numFoto].descripcion"
-           (load)="imagenCargada($event)"
+      <img [src]="imagenes[numFoto].foto" [alt]="imagenes[numFoto].descripcion" (load)="imagenCargada($event)"
            class="img">
     </div>
-    <div class="adelante"
-         (click)="cambiaFoto(1)">
+    <div class="adelante" (click)="cambiaFoto(1)">
       <div class="icono">
-        <cds-icon shape="angle"
-                  direction="right"
-                  size="lg">
+        <cds-icon shape="angle" direction="right" size="lg">
         </cds-icon>
       </div>
     </div>

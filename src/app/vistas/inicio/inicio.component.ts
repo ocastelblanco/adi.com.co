@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Title, Meta } from '@angular/platform-browser';
 import { interval } from 'rxjs';
 import { Estructura, EstructuraService, Foto, Proyecto } from 'src/app/servicios/estructura.service';
 import { trigger, state, transition, style, animate } from '@angular/animations';
@@ -42,39 +41,17 @@ interface Fondo {
   ]
 })
 export class InicioComponent implements OnInit {
-  titulo: string = 'A+DI Arquitectura y Diseño Interior';
-  descripcionGeneral!: string;
   estructura!: Estructura[];
   fondos: Fondo[] = [];
   listaFondos: number[] = [];
   numFondo: number = 0;
   timestamp: number = 0;
-  schema: any = {};
   cambiaFondo: boolean = false;
-  constructor(
-    private estructuraService: EstructuraService,
-    private titleService: Title,
-    private metaService: Meta,
-  ) { }
+  constructor(private estructuraService: EstructuraService) { }
   ngOnInit(): void {
+    this.estructuraService.emiteRuta({ proyecto: null, seccion: null });
     this.estructuraService.getEstructura().subscribe((data: Estructura[]) => {
       this.estructura = data;
-      if (this.estructura.length > 0) {
-        this.descripcionGeneral = this.estructura[0].descripcion.replace(/\n/gm, ' ');
-        this.titleService.setTitle(this.titulo);
-        this.metaService.addTags([
-          { name: 'keywords', content: 'adi, arquitectura, diseño, diseno, diseño interior, diseno interior, architecture, interior design, design, mobiliario, furniture, remodelaciones' },
-          { name: 'description', content: this.descripcionGeneral },
-          { name: 'robots', content: 'index, follow' }
-        ]);
-        this.schema = {
-          '@context': 'http://schema.org',
-          '@type': 'WebSite',
-          'name': this.titulo,
-          'url': 'https://adi.com.co/inicio',
-          'description': this.descripcionGeneral
-        };
-      }
       this.estructura.filter((s, i) => i > 0).forEach((sec: Estructura) => {
         sec.proyectos.forEach((pro: Proyecto) => {
           pro.fotos.forEach((foto: Foto) => {

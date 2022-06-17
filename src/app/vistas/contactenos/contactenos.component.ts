@@ -24,7 +24,6 @@ import { ReCaptchaV3Service } from 'ng-recaptcha';
   ]
 })
 export class ContactenosComponent implements OnInit {
-  schema: any = {};
   mensaje: Mensaje = { nombre: '', telefono: '', email: '', mensaje: '' };
   alertaMensaje: string = '';
   contacto = new FormGroup({
@@ -35,13 +34,7 @@ export class ContactenosComponent implements OnInit {
   });
   constructor(private data: EstructuraService, private recaptchaV3Service: ReCaptchaV3Service) { }
   ngOnInit(): void {
-    this.schema = {
-      '@context': 'http://schema.org',
-      '@type': 'ContactPage',
-      'name': 'A+DI - Contáctenos',
-      'url': 'https://adi.com.co/contactenos',
-      'description': '¿Qué podemos hacer por usted?',
-    };
+    this.data.emiteRuta({ proyecto: 'contactenos', seccion: null });
   }
   enviarMensaje() {
     this.alertaMensaje = 'info';

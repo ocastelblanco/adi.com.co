@@ -8,6 +8,10 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 interface FotoFondo extends Foto {
   proyecto: string;
 }
+interface Ruta {
+  proyecto: string;
+  seccion: string;
+}
 
 @Component({
   selector: 'adi-seccion',
@@ -114,6 +118,7 @@ export class SeccionComponent implements OnInit, AfterViewChecked {
         this.route.params.subscribe(params => {
           this.seccion = params['seccion'] ?? null;
           this.proyecto = params['proyecto'] ?? null;
+          this.estructuraService.emiteRuta({ proyecto: this.proyecto, seccion: this.seccion });
           if (this.seccion) {
             this.estructura = e.filter(s => this.creaLink(s.seccion) === this.seccion)[0] ?? null;
             if (this.estructura) {

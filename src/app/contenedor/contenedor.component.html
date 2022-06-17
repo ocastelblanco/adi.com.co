@@ -1,10 +1,19 @@
-<clr-main-container *ngIf="estructura else noEstructura">
-  <adi-header [titulo]="'A+DI Arquitectura y Diseño Interior'"></adi-header>
-  <router-outlet></router-outlet>
+<ngx-json-ld [json]="schema"></ngx-json-ld>
+<clr-main-container>
+  <adi-header [titulo]="titulo" [seccion]="ruta.seccion" [proyecto]="ruta.proyecto"></adi-header>
+  <div class="content-container">
+    <clr-vertical-nav *ngIf="ruta.seccion" [clr-nav-level]="2">
+      <a clrVerticalNavLink *ngFor="let proyecto of estructura.proyectos"
+         [routerLink]="['/', 'seccion', ruta.seccion, creaLink(proyecto.proyecto)]" routerLinkActive="active"
+         [innerHTML]="proyecto.proyecto | safe:'html'">
+      </a>
+    </clr-vertical-nav>
+    <div class="content-area" *ngIf="estructuraTotal else noEstructuraTotal">
+      <router-outlet></router-outlet>
+    </div>
+    <ng-template class="loading" #noEstructuraTotal>
+      <ngx-skeleton-loader count="5" appearance="line">
+      </ngx-skeleton-loader>
+    </ng-template>
+  </div>
 </clr-main-container>
-<ng-template class="loading"
-             #noEstructura>
-  <ngx-skeleton-loader count="5"
-                       appearance="line">
-  </ngx-skeleton-loader>
-</ng-template>

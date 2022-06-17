@@ -1,11 +1,4 @@
-.content-container {
-  margin-top: 3rem;
-  height: calc(100vh - 3rem);
-  overflow-y: hidden;
-  .content-area {
-    input,
-    textarea {
-      width: 100%;
-    }
-  }
+input,
+textarea {
+  width: 100%;
 }

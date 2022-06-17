@@ -1,89 +1,104 @@
-.content-container {
-  margin-top: 3rem;
-  height: calc(100vh - 3rem);
-  overflow-y: hidden;
-  .clr-vertical-nav {
-    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.25);
-    z-index: 1;
-  }
-  .content-area {
-    position: relative;
-    max-height: 100%;
-    overflow-y: scroll;
-    .fondo {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      .texto-fondo {
-        position: absolute;
-        bottom: 1rem;
-        width: 100%;
-        .card {
-          border-color: rgba(#dedede, 0.5);
-          background-color: rgba(255, 255, 255, 0.75);
-        }
-      }
-    }
-    .descripcion {
-      border-color: rgba(#dedede, 0.85);
-      background-color: rgba(255, 255, 255, 0.95);
-      .card-title {
+.contenido {
+  .galeria {
+    .celda {
+      margin-bottom: 1rem;
+      .card {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        .logo {
-          height: 1.8rem;
-          width: 1.8rem;
-          margin-right: 1em;
+        flex-direction: column;
+        &.desc {
+          .card-block {
+            .card-text {
+              overflow-y: scroll;
+              max-height: 210px;
+            }
+          }
         }
-      }
-    }
-    .galeria {
-      .celda {
-        margin-bottom: 1rem;
-        .card {
-          display: flex;
-          flex-direction: column;
-          &.clickable {
+        &.clickable {
+          .card-image {
+            overflow: hidden;
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            .img {
+              max-width: 100%;
+              max-height: 100%;
+              width: auto;
+              height: auto;
+              transition: cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
+            }
+          }
+          &.full {
             .card-image {
-              overflow: hidden;
-              flex: 1 1 auto;
-              display: flex;
-              justify-content: center;
-              align-items: stretch;
+              height: 100%;
               .img {
-                width: 100%;
+                width: auto;
                 height: auto;
-                transition: cubic-bezier(0.075, 0.82, 0.165, 1) 2s;
               }
             }
-            &.full {
-              .card-image {
-                height: 100%;
-                .img {
-                  width: auto;
-                  height: auto;
-                }
-              }
-            }
-            &:hover {
-              .card-image {
-                .img {
-                  transform: scale(1.15);
-                }
+          }
+          &:hover {
+            .card-image {
+              .img {
+                transform: scale(1.15);
               }
             }
           }
         }
       }
+      @media screen and (max-width: 768px) {
+        .card.desc {
+          height: unset !important;
+          .card-text {
+            max-height: unset !important;
+          }
+        }
+      }
     }
   }
+  .fondo {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    .texto-fondo {
+      position: absolute;
+      bottom: 1rem;
+      width: 100%;
+      .card {
+        //border-color: rgba(#dedede, 0.5);
+        //background-color: rgba(255, 255, 255, 0.75);
+      }
+    }
+    @media screen and (max-width: 778px) {
+      .texto-fondo {
+        display: none;
+      }
+    }
+  }
+  .descripcion {
+    //border-color: rgba(#dedede, 0.85);
+    //background-color: rgba(255, 255, 255, 0.95);
+    .card-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .logo {
+        height: 1.8rem;
+        width: 1.8rem;
+        margin-right: 1em;
+      }
+    }
+  }
+}
+.loading {
+  width: 100%;
+  padding: 1.2rem;
 }
 .modal-foto {
   .modal-body {

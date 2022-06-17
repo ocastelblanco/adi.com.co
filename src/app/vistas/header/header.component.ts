@@ -23,6 +23,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 export class HeaderComponent implements OnInit {
   @Input() titulo!: string;
+  @Input() seccion!: string | null;
+  @Input() proyecto!: string | null;
   estructura: Estructura[] = [];
   constructor(private estructuraService: EstructuraService) { }
   ngOnInit(): void {

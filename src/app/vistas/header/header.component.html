@@ -1,24 +1,19 @@
 <clr-header class="header-2">
   <div class="branding">
-    <a routerLink="/"
-       class="nav-link">
+    <a routerLink="/" class="nav-link">
       <cds-icon shape="logo_color"></cds-icon>
-      <span class="title">{{titulo}}</span>
+      <span class="title">
+        {{titulo}}
+      </span>
     </a>
   </div>
-  <div class="header-nav"
-       [clr-nav-level]="1">
+  <div class="header-nav" [clr-nav-level]="1">
     <ng-container *ngFor="let seccion of estructura">
-      <a @linkMenu
-         class="nav-link nav-text"
-         routerLinkActive="active"
-         *ngIf="seccion.seccion !== 'Inicio'"
+      <a @linkMenu class="nav-link nav-text" routerLinkActive="active" *ngIf="seccion.seccion !== 'Inicio'"
          [routerLink]="['seccion',creaLink(seccion.seccion)]">
         {{seccion.seccion}}
       </a>
     </ng-container>
-    <a class="nav-link nav-text"
-       routerLinkActive="active"
-       routerLink="contactenos">Contáctenos</a>
+    <a class="nav-link nav-text" routerLinkActive="active" routerLink="contactenos">Contáctenos</a>
   </div>
 </clr-header>

@@ -2,4 +2,7 @@
   position: fixed;
   width: 100vw;
   z-index: 9;
+  .branding {
+    max-width: calc(100% - 120px);
+  }
 }

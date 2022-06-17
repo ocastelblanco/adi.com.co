@@ -1,13 +1,9 @@
-<ngx-json-ld [json]="schema"></ngx-json-ld>
-<div class="content-container">
-  <div class="fondo"
-       [ngStyle]="{'background-image':'url(\'' + fondos[numFondo].foto + '\')'}"
+<div class="contenido" *ngIf="estructura && estructura[0] && estructura[0].descripcion else noInicio">
+  <div class="fondo" [ngStyle]="{'background-image':'url(\'' + fondos[numFondo].foto + '\')'}"
        *ngIf="fondos.length > 1">
-    <div class="clr-row clr-justify-content-end descripcion"
-         *ngIf="fondos[numFondo].descripcion">
+    <div class="clr-row clr-justify-content-end descripcion" *ngIf="fondos[numFondo].descripcion">
       <div class="clr-col-lg-4 clr-col-md-6 clr-col-8">
-        <div [@proyCard]="cambiaFondo ? true : false"
-             class="card descripcion-fondo">
+        <div [@proyCard]="cambiaFondo ? true : false" class="card descripcion-fondo">
           <div class="card-block">
             <div class="card-title">
               <strong [innerHTML]="fondos[numFondo].seccion"></strong>
@@ -28,32 +24,26 @@
       </div>
     </div>
   </div>
-  <div class="content-area"
-       *ngIf="estructura[0] && estructura[0].descripcion else noInicio">
-    <div class="clr-row clr-justify-content-center">
-      <div class="clr-col-lg-6 clr-col-md-10 clr-col-12">
-        <div @arrAba
-             class="card intro">
-          <div class="card-block">
-            <div class="card-title">
-              <cds-icon class="logo"
-                        shape="logo_color">
-              </cds-icon>
-              A+DI Arquitectura y Diseño Interior
-            </div>
-            <div class="card-text">
-              <span [innerHTML]="estructura[0].descripcion | safe:'html'"></span>
-            </div>
+  <div class="clr-row clr-justify-content-center">
+    <div class="clr-col-lg-6 clr-col-md-10 clr-col-12">
+      <div @arrAba class="card intro">
+        <div class="card-block">
+          <div class="card-title">
+            <cds-icon class="logo" shape="logo_color">
+            </cds-icon>
+            A+DI Arquitectura y Diseño Interior
+          </div>
+          <div class="card-text">
+            <span [innerHTML]="estructura[0].descripcion | safe:'html'"></span>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <ng-template #noInicio>
-    <div class="loading">
-      <ngx-skeleton-loader count="5"
-                           appearance="line">
-      </ngx-skeleton-loader>
-    </div>
-  </ng-template>
 </div>
+<ng-template #noInicio>
+  <div class="loading">
+    <ngx-skeleton-loader count="5" appearance="line">
+    </ngx-skeleton-loader>
+  </div>
+</ng-template>
