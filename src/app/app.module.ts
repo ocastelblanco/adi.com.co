@@ -18,6 +18,8 @@ import { ContactenosComponent } from './vistas/contactenos/contactenos.component
 import { SafePipe } from './pipes/safe.pipe';
 import { ErrorInterceptor } from './interceptadores/error.interceptor';
 import { JsonLdDirective } from './directivas/json-ld.directive';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,13 @@ import { JsonLdDirective } from './directivas/json-ld.directive';
     FormsModule,
     ReactiveFormsModule,
     NgxSkeletonLoaderModule,
-    RecaptchaV3Module
+    RecaptchaV3Module,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     {

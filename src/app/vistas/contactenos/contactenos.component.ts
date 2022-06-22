@@ -41,10 +41,10 @@ export class ContactenosComponent implements OnInit {
     this.recaptchaV3Service.execute('contactenos')
       .subscribe({
         next: (token: string) => {
-          this.mensaje.nombre = this.contacto.get('nombre')?.value;
-          this.mensaje.email = this.contacto.get('email')?.value;
-          this.mensaje.telefono = this.contacto.get('telefono')?.value;
-          this.mensaje.mensaje = this.contacto.get('mensaje')?.value;
+          this.mensaje.nombre = this.contacto.get('nombre')?.value ?? '';
+          this.mensaje.email = this.contacto.get('email')?.value ?? '';
+          this.mensaje.telefono = this.contacto.get('telefono')?.value ?? '';
+          this.mensaje.mensaje = this.contacto.get('mensaje')?.value ?? '';
           this.data.putMensaje(this.mensaje)
             .subscribe({
               next: (resp: any) => {

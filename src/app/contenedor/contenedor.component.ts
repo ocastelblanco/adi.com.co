@@ -174,7 +174,7 @@ export class ContenedorComponent implements OnInit {
                   this.schema = {
                     '@context': 'http://schema.org',
                     '@type': 'MediaGallery',
-                    'name': 'A+DI - ' + this.estructura.seccion + ' / ' + this.nombreProyecto,
+                    'name': 'A+DI - ' + this.nombreProyecto,
                     'url': 'https://adi.com.co/seccion/' + this.ruta.seccion + '/' + this.ruta.proyecto,
                     'description': this.estructura.proyectos[this.numProyecto].descripcion,
                   };
