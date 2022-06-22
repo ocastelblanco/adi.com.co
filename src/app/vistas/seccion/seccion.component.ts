@@ -96,7 +96,6 @@ export class SeccionComponent implements OnInit, AfterViewChecked {
   numProyecto!: number;
   nombreProyecto!: string;
   estructura!: Estructura;
-  schema: any = {};
   imagenes: FotoFondo[] = [];
   listaFondos: number[] = [];
   numFondo: number = 0;
@@ -107,7 +106,6 @@ export class SeccionComponent implements OnInit, AfterViewChecked {
   estadoFoto: string = 'saliendo';
   cambiandoFondo: boolean = false;
   constructor(
-    private titleService: Title,
     private estructuraService: EstructuraService,
     private route: ActivatedRoute,
     private router: Router
@@ -126,14 +124,6 @@ export class SeccionComponent implements OnInit, AfterViewChecked {
               if (this.proyecto) {
                 this.numProyecto = this.estructura.proyectos.map(p => this.creaLink(p.proyecto)).indexOf(this.proyecto);
                 this.nombreProyecto = this.estructura.proyectos[this.numProyecto].proyecto;
-                this.titleService.setTitle('A+DI - ' + this.nombreProyecto);
-                this.schema = {
-                  '@context': 'http://schema.org',
-                  '@type': 'MediaGallery',
-                  'name': 'A+DI - ' + this.estructura.seccion + ' / ' + this.nombreProyecto,
-                  'url': 'https://adi.com.co/seccion/' + this.seccion + '/' + this.proyecto,
-                  'description': this.estructura.proyectos[this.numProyecto].descripcion,
-                };
                 this.imagenes = this.estructura.proyectos[this.numProyecto].fotos.map(f => {
                   return {
                     ...f,
@@ -141,14 +131,6 @@ export class SeccionComponent implements OnInit, AfterViewChecked {
                   };
                 });
               } else {
-                this.titleService.setTitle('A+DI - ' + this.estructura.seccion);
-                this.schema = {
-                  '@context': 'http://schema.org',
-                  '@type': 'MediaGallery',
-                  'name': 'A+DI - ' + this.estructura.seccion,
-                  'url': 'https://adi.com.co/seccion/' + this.seccion,
-                  'description': this.estructura.descripcion,
-                };
                 this.estructura.proyectos.forEach(p => {
                   p.fotos.forEach(f => this.imagenes.push({
                     proyecto: p.proyecto,

@@ -7,7 +7,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ClarityModule } from '@clr/angular';
-import { NgxJsonLdModule } from '@ngx-lite/json-ld';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from "ng-recaptcha";
 
@@ -18,6 +17,7 @@ import { SeccionComponent } from './vistas/seccion/seccion.component';
 import { ContactenosComponent } from './vistas/contactenos/contactenos.component';
 import { SafePipe } from './pipes/safe.pipe';
 import { ErrorInterceptor } from './interceptadores/error.interceptor';
+import { JsonLdDirective } from './directivas/json-ld.directive';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,8 @@ import { ErrorInterceptor } from './interceptadores/error.interceptor';
     InicioComponent,
     SeccionComponent,
     SafePipe,
-    ContactenosComponent
+    ContactenosComponent,
+    JsonLdDirective
   ],
   imports: [
     BrowserModule,
@@ -37,7 +38,6 @@ import { ErrorInterceptor } from './interceptadores/error.interceptor';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxJsonLdModule,
     NgxSkeletonLoaderModule,
     RecaptchaV3Module
   ],
