@@ -7,9 +7,9 @@
         flex-direction: column;
         &.desc {
           .card-block {
+            max-height: calc(100% - 1rem);
+            overflow-y: scroll;
             .card-text {
-              overflow-y: scroll;
-              max-height: 210px;
             }
           }
         }
