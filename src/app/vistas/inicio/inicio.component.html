@@ -1,9 +1,13 @@
-<div class="contenido" *ngIf="estructura && estructura[0] && estructura[0].descripcion else noInicio">
-  <div class="fondo" [ngStyle]="{'background-image':'url(\'' + fondos[numFondo].foto + '\')'}"
+<div class="contenido"
+     *ngIf="estructura && estructura[0] && estructura[0].descripcion else noInicio">
+  <div class="fondo"
+       [ngStyle]="{'background-image':'url(\'' + fondos[numFondo].foto + '\')'}"
        *ngIf="fondos.length > 1">
-    <div class="clr-row clr-justify-content-end descripcion" *ngIf="fondos[numFondo].descripcion">
+    <div class="clr-row clr-justify-content-end descripcion"
+         *ngIf="fondos[numFondo].descripcion">
       <div class="clr-col-lg-4 clr-col-md-6 clr-col-8">
-        <div [@proyCard]="cambiaFondo ? true : false" class="card descripcion-fondo">
+        <div [@proyCard]="cambiaFondo ? true : false"
+             class="card descripcion-fondo">
           <div class="card-block">
             <div class="card-title">
               <strong [innerHTML]="fondos[numFondo].seccion"></strong>
@@ -26,10 +30,12 @@
   </div>
   <div class="clr-row clr-justify-content-center">
     <div class="clr-col-lg-6 clr-col-md-10 clr-col-12">
-      <div @arrAba class="card intro">
+      <div @arrAba
+           class="card intro">
         <div class="card-block">
           <div class="card-title">
-            <cds-icon class="logo" shape="logo_color">
+            <cds-icon class="logo"
+                      shape="logo_color">
             </cds-icon>
             A+DI Arquitectura y Diseño Interior
           </div>
@@ -43,7 +49,18 @@
 </div>
 <ng-template #noInicio>
   <div class="loading">
-    <ngx-skeleton-loader count="5" appearance="line">
+    <div class="pre-desc">
+      <h1>A+DI Arquitectura y Diseño Interior</h1>
+      <p>A+DI es una firma dedicada a la Arquitectura, el diseño interior, consultorías, desarrollo de mobiliario y
+        construcción con una identidad basada en el estudio funcional, técnico y perceptivo que cumplen con los
+        estándares del mercado y expectativas de nuestros usuarios. La prioridad de A+DI es la satisfacer las
+        necesidades de nuestros usuarios, y para esto nuestros profesionales están siempre en la búsqueda de nuevas
+        propuestas arquitectónicas al igual que del manejo de las ultimas tendencias, formulando nuevas alternativas
+        de diseño y arquitectura comprometidos a mejorar las condiciones de vida de las personas y el respeto por el
+        ambiente.</p>
+    </div>
+    <ngx-skeleton-loader count="5"
+                         appearance="line">
     </ngx-skeleton-loader>
   </div>
 </ng-template>

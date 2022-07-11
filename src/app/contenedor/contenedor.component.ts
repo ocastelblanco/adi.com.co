@@ -137,7 +137,9 @@ export class ContenedorComponent implements OnInit {
   nombreProyecto!: string;
   schema: any = {};
   titulo: string = 'A+DI Arquitectura y Diseño Interior';
-  descripcionGeneral!: string;
+  descripcionGeneral: string = `A+DI es una firma dedicada a la Arquitectura, el diseño interior, consultorías, desarrollo de mobiliario y construcción con una identidad basada en el estudio funcional, técnico y perceptivo que cumplen con los estándares del mercado y expectativas de nuestros usuarios.
+  
+  La prioridad de A+DI es la satisfacer las necesidades de nuestros usuarios, y para esto nuestros profesionales están siempre en la búsqueda de nuevas propuestas arquitectónicas al igual que del manejo de las ultimas tendencias, formulando nuevas alternativas de diseño y arquitectura comprometidos a mejorar las condiciones de vida de las personas y el respeto por el ambiente.`;
   constructor(
     private titleService: Title,
     private estructuraService: EstructuraService,
@@ -147,6 +149,20 @@ export class ContenedorComponent implements OnInit {
     this.estructuraService.init();
   }
   ngOnInit(): void {
+    this.titleService.setTitle(this.titulo);
+    this.metaService.addTags([
+      { name: 'keywords', content: 'adi, arquitectura, diseño, diseno, diseño interior, diseno interior, architecture, interior design, design, mobiliario, furniture, remodelaciones' },
+      { name: 'description', content: this.descripcionGeneral },
+      { name: 'robots', content: 'index, follow' }
+    ]);
+    this.schema = {
+      '@context': 'http://schema.org',
+      '@type': 'WebSite',
+      'name': this.titulo,
+      'url': 'https://adi.com.co/inicio',
+      'description': this.descripcionGeneral
+    };
+    this.estructuraService.creaURLCanonica();
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       const idCont: Element | null = document.getElementById('contenedor');
       idCont ? idCont.setAttribute('cds-theme', 'dark') : null;
@@ -155,12 +171,6 @@ export class ContenedorComponent implements OnInit {
       this.estructuraTotal = estructuraJSON;
       if (this.estructuraTotal.length > 0) {
         this.descripcionGeneral = this.estructuraTotal[0].descripcion.replace(/\n/gm, ' ');
-        this.titleService.setTitle(this.titulo);
-        this.metaService.addTags([
-          { name: 'keywords', content: 'adi, arquitectura, diseño, diseno, diseño interior, diseno interior, architecture, interior design, design, mobiliario, furniture, remodelaciones' },
-          { name: 'description', content: this.descripcionGeneral },
-          { name: 'robots', content: 'index, follow' }
-        ]);
         this.estructuraService.getRuta().subscribe((ruta: Ruta) => {
           window.setTimeout(() => {
             this.ruta = ruta;

@@ -14,5 +14,9 @@
   .loading {
     padding: 2em;
     max-width: 640px;
+    .pre-desc {
+      position: absolute;
+      opacity: 0;
+    }
   }
 }

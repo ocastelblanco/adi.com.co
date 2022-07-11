@@ -1,19 +1,38 @@
 <clr-main-container>
-  <adi-header [titulo]="titulo" [seccion]="ruta.seccion" [proyecto]="ruta.proyecto"></adi-header>
+  <adi-header [titulo]="titulo"
+              [seccion]="ruta.seccion"
+              [proyecto]="ruta.proyecto"></adi-header>
   <div class="content-container">
-    <clr-vertical-nav *ngIf="ruta.seccion" [clr-nav-level]="2">
-      <a clrVerticalNavLink *ngFor="let proyecto of estructura.proyectos"
-         [routerLink]="['/', 'seccion', ruta.seccion, creaLink(proyecto.proyecto)]" routerLinkActive="active"
+    <clr-vertical-nav *ngIf="ruta.seccion"
+                      [clr-nav-level]="2">
+      <a clrVerticalNavLink
+         *ngFor="let proyecto of estructura.proyectos"
+         [routerLink]="['/', 'seccion', ruta.seccion, creaLink(proyecto.proyecto)]"
+         routerLinkActive="active"
          [innerHTML]="proyecto.proyecto | safe:'html'">
       </a>
     </clr-vertical-nav>
-    <div class="content-area" *ngIf="estructuraTotal else noEstructuraTotal">
+    <div class="content-area"
+         *ngIf="estructuraTotal else noEstructuraTotal">
       <router-outlet></router-outlet>
     </div>
-    <ng-template class="loading" #noEstructuraTotal>
-      <ngx-skeleton-loader count="5" appearance="line">
+    <ng-template class="loading"
+                 #noEstructuraTotal>
+      <div class="pre-desc">
+        <h1>A+DI Arquitectura y Diseño Interior</h1>
+        <p>A+DI es una firma dedicada a la Arquitectura, el diseño interior, consultorías, desarrollo de mobiliario y
+          construcción con una identidad basada en el estudio funcional, técnico y perceptivo que cumplen con los
+          estándares del mercado y expectativas de nuestros usuarios. La prioridad de A+DI es la satisfacer las
+          necesidades de nuestros usuarios, y para esto nuestros profesionales están siempre en la búsqueda de nuevas
+          propuestas arquitectónicas al igual que del manejo de las ultimas tendencias, formulando nuevas alternativas
+          de diseño y arquitectura comprometidos a mejorar las condiciones de vida de las personas y el respeto por el
+          ambiente.</p>
+      </div>
+      <ngx-skeleton-loader count="5"
+                           appearance="line">
       </ngx-skeleton-loader>
     </ng-template>
   </div>
 </clr-main-container>
-<div adi-json-jd [json]="schema"></div>
+<div adi-json-jd
+     [json]="schema"></div>

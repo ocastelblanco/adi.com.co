@@ -42,4 +42,8 @@
 .loading {
   width: 100%;
   padding: 1.2rem;
+  .pre-desc {
+    position: absolute;
+    opacity: 0;
+  }
 }
