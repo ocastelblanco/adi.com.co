@@ -34,10 +34,14 @@ export interface Ruta {
 export class EstructuraService {
   private estructura: BehaviorSubject<Estructura[]> = new BehaviorSubject<Estructura[]>([]);
   private url: string = 'https://script.google.com/macros/s/AKfycbwFiN5Zzetx5Yo2jDIu71ATSfhXwJIbxc83FT9SV8FEQcejC85F93bMTg-ybbWcIrsDVA/exec';
+  private local: string = 'assets/data/data.json';
   private ruta: BehaviorSubject<Ruta> = new BehaviorSubject<Ruta>({ proyecto: null, seccion: null });
   constructor(private http: HttpClient, @Inject(DOCUMENT) private doc: Document) { }
   init(): void {
-    this.http.get(this.url, { responseType: 'json' }).subscribe((data: any) => this.estructura.next(data));
+    this.http.get(this.local, { responseType: 'json' }).subscribe((dataLocal: any) => {
+      this.estructura.next(dataLocal);
+      this.http.get(this.url, { responseType: 'json' }).subscribe((data: any) => this.estructura.next(data));
+    });
   }
   getEstructura(): BehaviorSubject<Estructura[]> {
     return this.estructura;
