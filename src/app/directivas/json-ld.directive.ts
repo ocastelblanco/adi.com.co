@@ -32,7 +32,7 @@ export class JsonLdDirective implements OnInit, OnChanges {
   }
   ngOnChanges(cambio: SimpleChanges): void {
     const json: SimpleChange = cambio['json'];
-    if (!json.firstChange && json.currentValue !== {} && json.currentValue !== json.previousValue) {
+    if (!json.firstChange && json.currentValue !== json.previousValue) {
       this.renderer.setProperty(this.script, 'innerHTML', JSON.stringify(this.json));
     }
   }
